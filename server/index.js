@@ -5,10 +5,13 @@ const express = require("express");
 
 const dbPath = process.env.DB_PATH;
 
+if (!fs.existsSync(dbPath)) fs.mkdirSync(dbPath);
+
 let db = new sqlite3.Database(dbPath);
 
 const app = express();
 
+app.set("view engine", "pug");
 app.set("json spaces", 2);
 app.use(express.json());
 
@@ -33,8 +36,8 @@ app.use(express.json());
     });*/
 
     app.get("/", (req, res) => {
-        res.send("OK");
-    })
+        res.render("index");
+    });
 
     app.get("*", (req, res) => {
         res.sendStatus(404);
