@@ -36,7 +36,20 @@ app.use(express.json());
     });*/
 
     app.get("/", (req, res) => {
-        res.render("index");
+        db.all("SELECT * FROM articles", (err, rows) => {
+            res.render("index", {data: rows});
+        });
+    });
+
+    app.get("/articles/:id", (req, res) => {
+        const id = req.params.id;
+        if (id) {
+            db.all("SELECT * FROM articles WHERE id = ?", [id], (err, rows) => {
+                res.render("article", {data: rows});
+            });   
+        } else {
+            res.status(400).send("id not specified");
+        }
     });
 
     app.get("*", (req, res) => {
