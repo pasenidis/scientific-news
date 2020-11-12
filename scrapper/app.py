@@ -1,7 +1,8 @@
-from bs4 import BeautifulSoup
-from urllib.request import urlopen
-import requests
-from utils import create_article
+from utils import create_table, create_article, parse_link
+from pyfiglet import figlet_format
+from sqlite3 import OperationalError
+from datetime import date
+from loguru import logger
 
 art = ["https://hbr.org/sponsored/2020/11/how-ai-is-helping-companies-make-deeper-human-connections",
        "https://hbr.org/2020/11/how-biden-won-back-enough-of-the-white-working-class",
@@ -9,28 +10,61 @@ art = ["https://hbr.org/sponsored/2020/11/how-ai-is-helping-companies-make-deepe
        ]
 
 
-for l in art:
-    html = urlopen(l)
-    bs = BeautifulSoup(html.read(), 'html.parser')
+def main():
+    """Run this to start the microservice."""
 
-    if "hbr.org" in l:
-        title_tag = bs.find('h1')
-        title_tag = title_tag.get_text().strip()
+    logger.add("debug.log", format="{time} {level} {message}",
+               level="DEBUG")
 
-        article = bs.find('div', {'class': 'article-first-row'})
-        paragraphs = article.findChildren()
+    greet()  # print a greeting message to the users
 
-        image = bs.find_all('img', {'src': True, 'class': {
-            'alignnone', 'size-full'}})
+    # loop through the links to add them to the DB
+    for l in art:
+        logger.info(f"Parsing {l}")
 
-        for img in image:
-            if img is not None:
-                src = img["src"]
-                image = f'https://hbr.org{src}'
+        a = parse_link(l)
 
-        text = ""
-        for p in paragraphs:
-            if p.get_text() is not None:
-                text += f'{p.get_text().strip()}\n'
+        db_data = (a['name'], a['text'], a['source'],
+                   a['top_image'], date.today().strftime("%B %d, %Y"))
 
-        create_article((title_tag, text, "Harvard Business Review", image))
+        try:
+            logger.info(f"Pushing to database")
+            create_article(db_data)
+        except OperationalError as e:
+            if "no such table" in str(e):
+                logger.warning(
+                    "Tables are not initialized. Running SQL queries...")
+
+                query = """
+                CREATE TABLE IF NOT EXISTS articles (
+                    id INTEGER NOT NULL PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    content TEXT NOT NULL,
+                    image TEXT NOT NULL,
+                    source TEXT NOT NULL,
+                    date TEXT NOT NULL
+                );
+                """
+                create_table(query)
+                create_article(db_data)
+
+        logger.success('Finished a task.')
+    logger.success('All done. Check for the changes in your DB!')
+
+
+def greet():
+    """Printing greetings at script start-up."""
+    name = 'Scientific News'
+    messages = [
+        'Made by:',
+        'Edward Pasenidis, Nikolakis Ntiakakis & Tasos Meletlidis\n']
+    print(figlet_format(name, font='slant'))
+
+    for t in messages:
+        print(t)
+
+
+if __name__ == "__main__":
+    main()
+else:
+    print('Using this file as an imported module. \nPlease be extremely cautious!')

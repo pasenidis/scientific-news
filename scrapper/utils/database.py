@@ -14,9 +14,10 @@ def create_connection(db_file):
     return conn
 
 
-def create_table(conn, create_table_sql):
+def create_table(create_table_sql):
     """Create a DB table"""
     try:
+        conn = create_connection("../database/data.db")
         c = conn.cursor()
         c.execute(create_table_sql)
     except Error as e:
@@ -26,31 +27,18 @@ def create_table(conn, create_table_sql):
 def create_article(article):
     """Craate an article"""
 
-    sql = """ INSERT INTO article(name, content, source, image, date)
+    sql = """ INSERT INTO articles(name, content, source, image, date)
               VALUES(?,?,?,?,?)"""
 
-    conn = create_connection('hahaha.db')
+    conn = create_connection('../database/data.db')
     cur = conn.cursor()
     cur.execute(sql, article)
     conn.commit()
     return cur.lastrowid
 
 
-def main():
-    db_path = r"C:\folder\db.db"
-
-    sqL_create_articles_table = """ CREATE TABLE IF NOT EXISTS articles (
-                id integer PRIMARY_KEY,
-                name text NOT NULL,
-                content text NOT NULL,
-                image text NOT NULL,
-                source text NOT NULL,
-                date text NOT NULL,
-            );"""
-
-    if conn := create_connection(db_path) is not None:
-        create_table(conn, sqL_create_articles_table)
-
-
 if __name__ == "__main__":
-    create_connection(r"C:\path\to\db.db")
+    print('database.py is not supposed to be ran as a file. \nUse it as a module instead')
+    exit(1)
+else:
+    print('database module is initialized.')
