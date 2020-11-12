@@ -8,7 +8,8 @@
         "watch": "nodemon .",
         "format": "npx prettier --write . --tab-width 4",
         "db:create": "node ./scripts/createDatabase.js",
-        "db:drop": "node ./scripts/dropDatabase.js"
+        "db:drop": "node ./scripts/dropDatabase.js",
+        "build": "webpack"
     },
     "keywords": [],
     "author": "",
@@ -19,8 +20,16 @@
         "sqlite3": "^5.0.0"
     },
     "devDependencies": {
+        "bootstrap": "^4.5.3",
+        "css-loader": "^5.0.1",
         "dotenv": "^8.2.0",
+        "jquery": "^3.5.1",
         "nodemon": "^2.0.6",
-        "prettier": "^2.1.2"
+        "popper.js": "^1.16.1",
+        "prettier": "^2.1.2",
+        "style-loader": "^2.0.0",
+        "url-loader": "^4.1.1",
+        "webpack": "^5.4.0",
+        "webpack-cli": "^4.2.0"
     }
 }

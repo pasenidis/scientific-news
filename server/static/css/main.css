@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
+body {
+    font-family: "Lato", sans-serif;
+    background-image: url("../image/background.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.card {
+    border-radius: 30px;
+    border: none;
+    transition: 0.45s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.75);
+}
+
+.card > img {
+    border-radius: 30px;
+}
+
+#card-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}

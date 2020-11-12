@@ -37,16 +37,16 @@ app.use(express.json());
 
     app.get("/", (req, res) => {
         db.all("SELECT * FROM articles", (err, rows) => {
-            res.render("index", {data: rows});
+            res.render("index", { data: rows });
         });
     });
 
     app.get("/articles/:id", (req, res) => {
         const id = req.params.id;
         if (id) {
-            db.all("SELECT * FROM articles WHERE id = ?", [id], (err, rows) => {
-                res.render("article", {data: rows});
-            });   
+            db.get("SELECT * FROM articles WHERE id = ?", [id], (err, row) => {
+                res.render("article", { data: row });
+            });
         } else {
             res.status(400).send("id not specified");
         }

@@ -1,3 +1,20 @@
-ul
-  each el in data
-    li= el.id
+<!DOCTYPE html>
+html(lang="en")
+    head
+        include head.pug
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Scientific News Portal
+    body
+        div(class="text-center")
+            h1(class="mt-4 mb-4")= data.length + " articles"
+        div(class="container" id="card-container")
+            each el in data
+                card(class="card mb-5")
+                    img(class="card-img-top" src=el.image)
+                    div(class="card-body")
+                        h5(class="card-title")= el.name
+                        p(class="card-text")= el.content.substring(200, 0) + "..."
+                        a(href=`/articles/${el.id}`)= "Read more"
+                            
+
