@@ -6,6 +6,7 @@ from utils import (
     db_handler,
     worker
 )
+from newspapers import HarvardBusinessReview
 from pyfiglet import figlet_format
 from sqlite3 import OperationalError
 from datetime import date
@@ -29,8 +30,23 @@ def main():
                level=config['logs']['level'])
 
     greet()  # print a greeting message to the users
-    worker(art)  # loop through the links to add them to the DB
+    process_links(config['domains'])
+
     logger.success('All done. Check for the changes in your DB!')
+
+
+def process_links(domains):
+    """Parse articles"""
+    from newspaper import Article
+
+    links = []
+
+    for d in domains:
+        if "hbr.org" in d:
+            links.extend(
+                HarvardBusinessReview.get_available_links('most-popular'))
+
+    worker(links)  # loop through the links to add them to the DB
 
 
 def greet():
