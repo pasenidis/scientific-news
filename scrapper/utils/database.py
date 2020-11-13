@@ -25,7 +25,7 @@ def create_table(create_table_sql):
 
 
 def create_article(article):
-    """Craate an article"""
+    """Create an article"""
 
     sql = """ INSERT INTO articles(name, content, source, image, date)
               VALUES(?,?,?,?,?)"""
@@ -35,6 +35,20 @@ def create_article(article):
     cur.execute(sql, article)
     conn.commit()
     return cur.lastrowid
+
+
+def select_article(name):
+    """Find an article with the name"""
+
+    sql = """ SELECT * FROM articles WHERE name = ?;"""
+
+    conn = create_connection("../database/data.db")
+    cur = conn.cursor()
+    cur.execute(sql, (name, ))
+
+    rows = cur.fetchall()
+
+    return rows
 
 
 if __name__ == "__main__":

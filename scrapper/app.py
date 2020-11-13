@@ -1,54 +1,35 @@
-from utils import create_table, create_article, parse_link
+from utils import (
+    create_table,
+    create_article,
+    select_article,
+    parse_link,
+    db_handler,
+    worker
+)
 from pyfiglet import figlet_format
 from sqlite3 import OperationalError
 from datetime import date
 from loguru import logger
+from json import load
 
 art = ["https://hbr.org/sponsored/2020/11/how-ai-is-helping-companies-make-deeper-human-connections",
        "https://hbr.org/2020/11/how-biden-won-back-enough-of-the-white-working-class",
        "https://www.space.com/news/live/spacex-crew-1-mission-updates",
        ]
 
+CONFIG_PATH = "config.json"
+
 
 def main():
     """Run this to start the microservice."""
 
-    logger.add("debug.log", format="{time} {level} {message}",
-               level="DEBUG")
+    config = load_json(CONFIG_PATH)
+
+    logger.add(config['logs']['output_name'], format="{time} {level} {message}",
+               level=config['logs']['level'])
 
     greet()  # print a greeting message to the users
-
-    # loop through the links to add them to the DB
-    for l in art:
-        logger.info(f"Parsing {l}")
-
-        a = parse_link(l)
-
-        db_data = (a['name'], a['text'], a['source'],
-                   a['top_image'], date.today().strftime("%B %d, %Y"))
-
-        try:
-            logger.info(f"Pushing to database")
-            create_article(db_data)
-        except OperationalError as e:
-            if "no such table" in str(e):
-                logger.warning(
-                    "Tables are not initialized. Running SQL queries...")
-
-                query = """
-                CREATE TABLE IF NOT EXISTS articles (
-                    id INTEGER NOT NULL PRIMARY KEY,
-                    name TEXT NOT NULL,
-                    content TEXT NOT NULL,
-                    image TEXT NOT NULL,
-                    source TEXT NOT NULL,
-                    date TEXT NOT NULL
-                );
-                """
-                create_table(query)
-                create_article(db_data)
-
-        logger.success('Finished a task.')
+    worker(art)  # loop through the links to add them to the DB
     logger.success('All done. Check for the changes in your DB!')
 
 
@@ -57,11 +38,21 @@ def greet():
     name = 'Scientific News'
     messages = [
         'Made by:',
-        'Edward Pasenidis, Nikolakis Ntiakakis & Tasos Meletlidis\n']
+        'Edward Pasenidis, Nikos Ntiakakis & Tasos Meletlidis\n\n'
+        'Source: https://git.io/JkYGb\n\n',
+        'You can run this microservice as a CRON job or anything else you want.\n\n'
+    ]
     print(figlet_format(name, font='slant'))
 
     for t in messages:
         print(t)
+
+
+def load_json(path):
+    """Load JSON files to parse the configuration"""
+    with open(path) as j:
+        data = load(j)
+        return data
 
 
 if __name__ == "__main__":
