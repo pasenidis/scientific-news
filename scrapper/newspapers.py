@@ -35,6 +35,19 @@ class HarvardBusinessReview(Newspaper):
         return articles
 
 
-if __name__ == "__main__":
-    a = HarvardBusinessReview()
-    a.get_available_links('most-popular')
+class Space(Newspaper):
+    def __init__(self):
+        super().__init__("https://www.space.com")
+
+    @staticmethod
+    def get_available_links(suffix='spaceflight'):
+        html = urlopen(f'https://www.space.com/{suffix}')
+        bs = BeautifulSoup(html.read(), 'html.parser')
+
+        found = bs.find_all('a', {'class': {'article-link'}})
+        articles = []
+        for item in found:
+            link = item['href']
+            articles.append(link)
+
+        return articles

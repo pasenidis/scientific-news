@@ -6,7 +6,7 @@ from utils import (
     db_handler,
     worker
 )
-from newspapers import HarvardBusinessReview
+from newspapers import HarvardBusinessReview, Space
 from pyfiglet import figlet_format
 from sqlite3 import OperationalError
 from datetime import date
@@ -45,6 +45,13 @@ def process_links(domains):
         if "hbr.org" in d:
             links.extend(
                 HarvardBusinessReview.get_available_links('most-popular'))
+        elif "space.com" in d:
+            links.extend(
+                Space.get_available_links('spaceflight')
+            )
+            links.extend(
+                Space.get_available_links('tech-robots')
+            )
 
     worker(links)  # loop through the links to add them to the DB
 
