@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap");
 
 body {
-    font-family: "Lato", sans-serif;
+    font-family: "Quicksand", sans-serif;
     background-image: url("../image/background.jpg");
     background-size: cover;
     background-attachment: fixed;
@@ -15,11 +15,20 @@ body {
 
 .card:hover {
     transform: translateY(-10px);
-    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.5);
 }
 
-.card > img {
+.imgDiv {
+    transition: 0.45s;
     border-radius: 30px;
+}
+
+.imgDiv > img {
+    border-radius: 30px;
+}
+
+.imgDiv:hover {
+    transform: translate3d(-10px, -10px, 0);
 }
 
 #card-container {
@@ -28,4 +37,41 @@ body {
     display: grid;
     grid-gap: 3rem;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.hline {
+    background-color: #a5a5a5;
+}
+
+.text-wh {
+    color: #f5f5f5;
+}
+
+.header-card {
+    font-size: 3.7rem;
+    background-color: #1d1d1d;
+    padding: 7px;
+    border-radius: 20px;
+    color: #f5f5f5;
+    margin-bottom: 4em;
+}
+
+.article-card {
+    border-radius: 30px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    transform: translateY(-10rem);
+    transition: 1.5s;
+}
+
+.article-card:hover {
+    transform: translateY(-5rem);
+}
+
+.article-image-card > img {
+    border-radius: 30px;
+}
+
+.credits {
+    font-size: 2rem;
 }
