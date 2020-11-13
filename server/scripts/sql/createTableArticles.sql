@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS articles (
-    id int PRIMARY KEY,
-    name text NOT NULL,
-    content text NOT NULL,
-    image text NOT NULL,
-    source text NOT NULL,
-    date text NOT NULL
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    content TEXT NOT NULL,
+    image TEXT NOT NULL,
+    source TEXT NOT NULL,
+    date TEXT NOT NULL
 );

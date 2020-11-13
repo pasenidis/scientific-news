@@ -6,15 +6,27 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Scientific News Portal
     body
-        div(class="text-center")
-            h1(class="mt-4 mb-4")= data.length + " articles"
-        div(class="container" id="card-container")
+        div(class="text-center mt-4")
+            span(class="display-4 header-card") Scientific News Portal
+            h1(class="mt-4 mb-4 text-wh")= data.length + " articles"
+        div(class="container mt-3 mb-4" id="card-container")
             each el in data
-                card(class="card mb-5")
-                    img(class="card-img-top" src=el.image)
+                card(class="card mb-2")
+                    div(class="imgDiv")
+                        img(class="card-img-top" src=el.image)
                     div(class="card-body")
+                        hr(class="hline")
                         h5(class="card-title")= el.name
                         p(class="card-text")= el.content.substring(200, 0) + "..."
-                        a(href=`/articles/${el.id}`)= "Read more"
+                        hr(class="hline")
+                        a(href=`/articles/${el.id}` target="_blank") Read more
+                        br
+                        i
+                            span= el.date
+                        br
+                        span From&nbsp;
+                            a(href=el.source target="_blank)= el.source
+        div(class="text-center")
+            span(class="text-white pb-4") Made by Edward Pasenidis, Nikolakis Ntiakakis & Tasos Meletlidis
                             
 
