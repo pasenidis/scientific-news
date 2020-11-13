@@ -1,0 +1,10 @@
+{
+    "db": {
+        "name": "articles"
+    },
+    "logs": {
+        "output_name": "default.log",
+        "level": "DEBUG"
+    },
+    "domains": []
+}
