@@ -13,10 +13,6 @@ from datetime import date
 from loguru import logger
 from json import load
 
-art = ["https://hbr.org/sponsored/2020/11/how-ai-is-helping-companies-make-deeper-human-connections",
-       "https://hbr.org/2020/11/how-biden-won-back-enough-of-the-white-working-class",
-       "https://www.space.com/news/live/spacex-crew-1-mission-updates",
-       ]
 
 CONFIG_PATH = "config.json"
 
