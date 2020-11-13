@@ -12,12 +12,12 @@
 Check the README for the respective directory
 ```
 
-## Author
+## Authors
 
 👤 **Edward Pasenidis, Nikos Ntiakakis, Tasos Meletlidis**
 
 * Website: edpasenidis.tech
-* Github: [@pasenidis](https://github.com/pasenidis)
+* GitHub: [@pasenidis](https://github.com/pasenidis) / [@ntiakakis](https://github.com/ntiakakis) / [@TasosY2K](https://github.com/TasosY2K)
 
 ## 🤝 Contributing
 
